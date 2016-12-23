@@ -441,8 +441,8 @@ $(function() {
 
     $('#localdialog').dialog({
         autoOpen: false,
-        height: 600,
-        width: 432,
+        height: 800,
+        width: 500,
         modal: true,
         resizable: false,
     });
