@@ -33,7 +33,7 @@
   <br class="clear">
 
   <hr class='local-rule'>
-  
+
   <h1 style="font-size: 14px; text-align: center;" class="local">
     <a href="http://en.wikipedia.org/wiki/Thermal_comfort#Local_Thermal_Discomfort" target="_new">Vertical air temperature difference</a>
   </h1>
@@ -52,13 +52,13 @@
   <div class='ppd-right' id='vert-disc'></div>
 
   <br class="clear">
-  
+
   <hr class="local-rule">
 
   <h1 style="font-size: 14px; text-align: center" class="local">
     <a href="http://en.wikipedia.org/wiki/Thermal_comfort#Local_Thermal_Discomfort" target="_new">Floor surface temperature</a>
   </h1>
-  
+
   <div class='leftlabel-loc-dialog'>Floor temperature</div>
   <div class='inputfield-dialog'>
     <input class='input-dialog-local' id='T_floor' value='25'/>
@@ -73,23 +73,84 @@
   <h1 style="font-size: 14px; text-align: center;" class="local">
     <a href="http://en.wikipedia.org/wiki/Thermal_comfort#Local_Thermal_Discomfort" target="_new">Draft</a>
   </h1>
-  
+
   <div class='leftlabel-loc-dialog'>Operative temperature</div>
   <div class='inputfield-dialog'>
-    <input class='input-dialog-local' id='T_op' value='25'/>
+    <input class='input-dialog-local' id='T_op'  value='25'/>
     <span class='tempunit'> &deg;C</span>
   </div><br />
 
   <div class='leftlabel-loc-dialog'>Air speed</div>
   <div class='inputfield-dialog'>
-    <input class='input-dialog-local' id='local_vel' value='0.1'/>
+    <input class='input-dialog-local' id='local_vel'  value='0.1'/>
     <span class='velunit'> m/s</span>
   </div>
   <div class='ppd-right' id='draft-disc'></div>
+
+  <!--<br class="clear">-->
+  <br class="clear">
+  <!--<hr class="local-rule">-->
+
+  <h1 style="font-size: 14px; text-align: center;" class="local">
+    <a href="http://en.wikipedia.org/wiki/Thermal_comfort#Local_Thermal_Discomfort" target="_new">Ankle draft</a>
+  </h1>
+
+  <div class='leftlabel-loc-dialog'>Air temperature</div>
+  <div class='inputfield-dialog'>
+    <input class='input-dialog-local' id='local_Ta'  value='25'/>
+    <span class='tempunit'> &deg;C</span>
+  </div><br />
+
+    <div class='leftlabel-loc-dialog'>Radiant temperature</div>
+  <div class='inputfield-dialog'>
+    <input class='input-dialog-local' id='local_Tr'  value='25'/>
+    <span class='tempunit'> &deg;C</span>
+  </div><br />
+
+  <div class='leftlabel-loc-dialog'>Humidity</div>
+  <div class='inputfield-dialog'>
+    <input class='input-dialog-local' id='local_rh'  value='50'/>
+    <span class='rhunit'> %</span>
+  </div><br />
+
+  <div class='leftlabel-loc-dialog'>Metabolic rate</div>
+  <div class='inputfield-dialog'>
+    <input class='input-dialog-local' id='local_met' value='1.2'/>
+    <span class='metunit'> met</span>
+  </div><br />
+
+  <div class='leftlabel-loc-dialog'>Clothing level</div>
+  <div class='inputfield-dialog'>
+    <input class='input-dialog-local' id='local_clo'  value='0.5'/>
+    <span class='clounit'> clo</span>
+  </div><br />
+
+  <div class='leftlabel-loc-dialog'>Ankle air speed</div>
+  <div class='inputfield-dialog'>
+    <input class='input-dialog-local' id='local_ank_vel' value='0.1'/>
+    <span class='velunit'> m/s</span>
+  </div><br />
+
+  <!--<span class='result' id='test_data'></span>-->
+  <div class='leftlabel-loc-dialog'> PMV</div>
+  <div class="inputfield-dialog">
+    <span class='result' id='draft_pmv_res'></span>
+  </div><br />
+  <div class='leftlabel-loc-dialog'> PPD-AD </div>
+  <div class="inputfield-dialog">
+    <span class='result' id='ankle-draft-disc'></span>
+  </div><br />
+
+    <div class='ppd-right' id='ank-draft-sign'></div>
+  <!--<div class='ppd-right' id='ankle-draft-disc'></div>-->
+
+
+
+
   <br class="clear"/>
-  
+
   <hr class="local-rule">
-  
+
   <div style="margin-top: 5px;" class='local-disc-result' id='all-disc'></div>
 
 </form>
