@@ -790,6 +790,9 @@ $('#localDisc').click(function() {
                 $('#T_ankle').val('77')
                 $('#T_floor').val('77')
                 $('#T_op').val('77')
+                $('#local_Ta').val('77')
+                $('#local_Tr').val('77')
+                $('#local_ank_vel').val('20')
                 $('#local_vel').val('20')
             }
         },
