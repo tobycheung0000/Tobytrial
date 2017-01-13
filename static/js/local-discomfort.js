@@ -86,6 +86,20 @@ function ankledraft(ankle_vel, overall_pmv) {
 //------------------------------- For the dialog --------------------------------------
 // NOTE: due to how the code is structured, "true" means that there is local discomfort, so the space does NOT comply.
 
+// $(function () {
+//
+//    var limitInput = function () {
+//        var value = parseFloat(this.value, 10);
+//        var min = parseFloat(0.06);
+//
+//        if (value < min) {
+//            this.value = min;
+//        }
+//    };
+//
+//    $("#local_ank_vel").change(limitInput);
+//});
+
 function updateLocalDisc() {
     var dlocal = {}
     var msg;
