@@ -86,19 +86,7 @@ function ankledraft(ankle_vel, overall_pmv) {
 //------------------------------- For the dialog --------------------------------------
 // NOTE: due to how the code is structured, "true" means that there is local discomfort, so the space does NOT comply.
 
-// $(function () {
-//
-//    var limitInput = function () {
-//        var value = parseFloat(this.value, 10);
-//        var min = parseFloat(0.06);
-//
-//        if (value < min) {
-//            this.value = min;
-//        }
-//    };
-//
-//    $("#local_ank_vel").change(limitInput);
-//});
+
 
 function updateLocalDisc() {
     var dlocal = {}
@@ -120,6 +108,17 @@ function updateLocalDisc() {
     dlocal.local_vel_1 = parseFloat($('#local_vel_1').val());
     dlocal.local_ank_vel = parseFloat($('#local_ank_vel').val());
 
+ $(function () {
+    var limitInput = function () {
+        var value = parseFloat(this.value, 10);
+        var min = parseFloat(0.06);
+        if (value < min) {
+            this.value = min;
+        }
+    };
+    $("#local_ank_vel").change(limitInput);
+});
+
     if (!isCelsius) {
         dlocal.rad_DT_warmC = dlocal.rad_DT_warmC * 5 / 9;
         dlocal.rad_DT_coolC = dlocal.rad_DT_coolC * 5 / 9;
@@ -137,6 +136,17 @@ function updateLocalDisc() {
         dlocal.local_vel /= 196.9;
         dlocal.local_vel_1 /= 196.9;
         dlocal.local_ank_vel /= 196.9;
+
+         $(function () {
+            var limitInput = function () {
+                 var value = parseFloat(this.value, 10);
+                 var min = parseFloat(20);
+            if (value < min) {
+                 this.value = min;
+            }
+            };
+        $("#local_ank_vel").change(limitInput);
+        });
     }
 
     var asym_res = asymRisk(dlocal.rad_DT_warmC, dlocal.rad_DT_coolC, dlocal.rad_DT_warmW, dlocal.rad_DT_coolW);
