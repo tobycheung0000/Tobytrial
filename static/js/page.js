@@ -780,7 +780,7 @@ $('#ERF').click(function() {
 $('#localDisc').click(function() {
     var container = $('#localdialog');
     $.ajax({
-        url: util.STATIC_URL + '/html/localdisc.html',
+        url: util.STATIC_URL + '/html/localdiscASH55.html',
         success: function(data) {
             $('#localdialog').html(data);
             if (!isCelsius) {
@@ -793,6 +793,7 @@ $('#localDisc').click(function() {
                 $('#local_Ta').val('77')
                 $('#local_Tr').val('77')
                 $('#local_ank_vel').val('20')
+                $('#local_vel_1').val('20')
                 $('#local_vel').val('20')
             }
         },

@@ -103,6 +103,7 @@ function updateLocalDisc() {
     dlocal.local_met = parseFloat($('#local_met').val());
     dlocal.local_clo = parseFloat($('#local_clo').val());
     dlocal.local_vel = parseFloat($('#local_vel').val());
+    dlocal.local_vel_1 = parseFloat($('#local_vel_1').val());
     dlocal.local_ank_vel = parseFloat($('#local_ank_vel').val());
 
     if (!isCelsius) {
@@ -120,6 +121,7 @@ function updateLocalDisc() {
         dlocal.local_met = parseFloat($('#local_met').val());
         dlocal.local_clo = parseFloat($('#local_clo').val());
         dlocal.local_vel /= 196.9;
+        dlocal.local_vel_1 /= 196.9;
         dlocal.local_ank_vel /= 196.9;
     }
 
@@ -128,7 +130,7 @@ function updateLocalDisc() {
     var floor_res = floorRisk(dlocal.T_floor);
     var draft_res = draftRisk(dlocal.T_op, dlocal.local_vel);
 //    var addup = sum(dlocal.T_op, dlocal.local_ank_vel);
-    var draft_pmv_res = comf.pmv(dlocal.local_Ta, dlocal.local_Tr, dlocal.local_vel, dlocal.local_rh, dlocal.local_met, dlocal.local_clo, 0)
+    var draft_pmv_res = comf.pmv(dlocal.local_Ta, dlocal.local_Tr, dlocal.local_vel_1, dlocal.local_rh, dlocal.local_met, dlocal.local_clo, 0)
     var ank_draft_res= ankledraft(dlocal.local_ank_vel, draft_pmv_res.pmv)*100
 
 
