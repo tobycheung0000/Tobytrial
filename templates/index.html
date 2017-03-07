@@ -13,8 +13,9 @@
   <script type="text/javascript" src="{{ url_for('static', filename='js/psychchart.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/adaptchart.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/temphumchart.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/veltopchart.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/local-discomfort.js') }}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='js/leed.js') }}"</script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/leed.js') }}"></script>
   <script type="text/javascript">
 
     var _gaq = _gaq || [];
@@ -301,6 +302,7 @@
         <option value='psychta'>Psychrometric chart (air temperature)</option>
         <option value='psychtop'>Psychrometric chart (operative temperature)</option>
         <option value='temphum'>Temperature – Relative Humidity chart</option>
+        <option value='veltop'>Operative Temperature – Velocity chart</option>
       </select>
     </div>
     <div class='leftlabel' id="chart-title-adaptive" style="display:none; font-size: 16px; position: relative; left: 240px; top:35px;">
@@ -313,6 +315,7 @@
     <div id='ERFdialog' title='SolarCal: shortwave radiation calculator'></div>
     <div style="margin-left:-15px;" id="chart-div"></div>
     <div style="margin-left:10px;" id="temphumchart-div"></div>
+    <div style="margin-left:10px;" id="veltopchart-div"></div>
     <div style="margin-left:20px;" id="chart-div-adaptive"></div>
 
   <div id ="pmv-notes">
@@ -324,6 +327,9 @@
     </div>
 	<div class='note' id="temphum-note">
     <b>NOTE:</b> This chart represents only two variables, dry-bulb temperature and relative humidity. The PMV calculations are still based on all the psychrometric variables, but the visualization becomes easier to understand.
+    </div>
+    <div class='note' id="veltop-note">
+    <b>NOTE:</b> Add some note for veltopchart.
     </div>
   </div><!--end of div "pmv-notes"-->
 

@@ -361,7 +361,7 @@ $(document).ready(function() {
             dividerLocation: 0.5
         });
     });
-    $('#adaptive-inputs, #adaptive-note, #psychtop-note, #temphum-note, #chart-div-adaptive, #temphumchart-div').hide();
+    $('#adaptive-inputs, #adaptive-note, #psychtop-note, #temphum-note, #chart-div-adaptive, #temphumchart-div, #veltop-note, #veltopchart-div').hide();
     window.isCelsius = true;
     window.humUnit = 'rh';
     setDefaults();
@@ -371,6 +371,10 @@ $(document).ready(function() {
     var bound = bc.findComfortBoundary(d, 0.5)
     bc.drawComfortRegion(bound);
     bc.drawPoint();
+    vc.drawChart();
+    var bound = vc.findComfortBoundary(d, 0.5)
+    vc.drawComfortRegion(bound);
+    vc.drawPoint();
     pc.drawChart();
     var json = [{ "db": d.ta,
                   "hr": pc.getHumRatio(d.ta, d.rh) }];
@@ -838,7 +842,7 @@ $('#model-type').change(function() {
     model = $('#model-type').val();
     if (model == 'pmvElevatedAirspeed') {
         $('#pmv-inputs, #pmv-outputs, #cloInput, #actInput, #humidity-spec-cont, #chart-div, #chartSelect-cont, #pmv-notes').show();
-        $('#adaptive-note, #adaptive-inputs, #adaptive-outputs, #chart-div-adaptive, #chart-title-adaptive, #temphumchart-div, #temphumchart-title').hide();
+        $('#adaptive-note, #adaptive-inputs, #adaptive-outputs, #chart-div-adaptive, #chart-title-adaptive, #temphumchart-div, #temphumchart-title, #veltopchart-div').hide();
         if (model == 'pmvElevatedAirspeed') {
             $('#pmv-elev-outputs, #local-control-div').show();
             $('#pmv-out-label').html('PMV Adjusted');
@@ -847,7 +851,7 @@ $('#model-type').change(function() {
         }
     } else if (model == 'adaptiveComfort') {
         $('#pmv-inputs, #pmv-elev-inputs, #local-control-div, #pmv-outputs, #pmv-elev-outputs, #cloInput').hide()
-        $('#actInput, #humidity-spec-cont, #chart-div, #temphumchart-div, #pmv-notes, #chartSelect-cont').hide();
+        $('#actInput, #humidity-spec-cont, #chart-div, #temphumchart-div, #pmv-notes, #chartSelect-cont, #veltopchart-div').hide();
         $('#adaptive-note, #adaptive-inputs, #adaptive-outputs, #chart-div-adaptive, #chart-title-adaptive').show();
         $('#localDisc').attr('disabled', 'disabled');
     }
@@ -858,10 +862,10 @@ $("#chartSelect").change(function(){
 	chart = $("#chartSelect").val();
 	if (chart == "psychta" || chart == "psychtop"){
 		$("#chart-div").show();
-		$("#temphumchart-div").hide();
+		$("#temphumchart-div, veltopchart-div").hide();
 		if (chart == "psychta") {
 			$("#psychta-note").show();
-			$("#psychtop-note, #temphum-note").hide();
+			$("#psychtop-note, #temphum-note, #veltop-note, #veltopchart-div").hide();
 			
 			$("#db-axis-C-label").text("Drybulb Temperature [°C]");
 			$("#db-axis-F-label").text("Drybulb Temperature [°F]");
@@ -878,7 +882,7 @@ $("#chartSelect").change(function(){
 			
 		} else if (chart == "psychtop") {
 			$("#psychtop-note").show();
-			$("#psychta-note, #temphum-note").hide();
+			$("#psychta-note, #temphum-note, #veltop-note, #veltopchart-div").hide();
 			
 			$("#db-axis-C-label").text("Operative Temperature [°C]");
 			$("#db-axis-F-label").text("Operative Temperature [°F]");
@@ -891,7 +895,7 @@ $("#chartSelect").change(function(){
 		}
 	} else if (chart == "temphum") {
 		$("#temphumchart-div, #temphum-note").show();
-		$("#chart-div, #psychta-note, #psychtop-note").hide();
+		$("#chart-div, #psychta-note, #psychtop-note, #veltop-note, #veltopchart-div").hide();
 		if ($('#link').is(':checked')) {
         	$('#labelforlink').show();
 		} else {
@@ -899,6 +903,20 @@ $("#chartSelect").change(function(){
         	$('#globeTemp').removeAttr('disabled');
         	$('#tr-input, #tr-lab, #labelforlink').show();
 		}
+	} else if (chart == "veltop") {
+		$("#veltopchart-div, #veltop-note").show();
+		$("#chart-div, #psychta-note, #psychtop-note, #temphum-note, #temphumchart-div").hide();
+//		if ($('#link').is(':checked')) {
+//        	$('#labelforlink').show();
+//		} else {
+//			$('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Dry-bulb_temperature" target="_new">Air temperature</a>');
+//        	$('#globeTemp').removeAttr('disabled');
+//        	$('#tr-input, #tr-lab, #labelforlink').show();
+//		}
+
+            $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>');
+            $('#globeTemp').attr('disabled', 'disabled');
+            $('#tr-input, #tr-lab, #labelforlink').hide();
 	}
 	update();
 });
@@ -960,6 +978,7 @@ function toggleUnits() {
     }
     pc.toggleUnits(isCelsius);
     bc.toggleUnits(isCelsius);
+    vc.toggleUnits(isCelsius);
     ac.toggleUnits(isCelsius);
 }
 
@@ -1029,6 +1048,10 @@ function update() {
             var b = bc.findComfortBoundary(d, 0.5)
             bc.redrawComfortRegion(b);
             bc.redrawPoint();
+        } else if ($('#veltopchart-div').is(':visible')) {
+            var b = vc.findComfortBoundary(d, 0.5)
+            vc.redrawComfortRegion(b);
+            vc.redrawPoint();
         };
 
     } else if (model == 'adaptiveComfort') {
