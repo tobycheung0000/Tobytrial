@@ -730,8 +730,8 @@ $('#specPressure').click(function() {
         customPressure = parseFloat(customPressure)
         if (!isNaN(customPressure) && customPressure >= 60000 && customPressure <= 108000) {
             psy.PROP.Patm = customPressure
-            pc.redraw_rh_lines()
-            update()
+            pc.redraw_rh_lines();
+            update();
         } else {
             window.alert('The entered atmospheric pressure is invalid. It must be in the range of 60,000 to 108,000 pascals.')
         }

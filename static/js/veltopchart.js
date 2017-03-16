@@ -141,10 +141,6 @@ var vc = new function() {
             .text("Air Speed [fpm]")
             .attr("transform", "rotate (-90, -45, -10) translate(-350)");
 
-        // drawing the white background
-//        var whitebound = vc.findwhiteBoundary();
-//            vc.drawwhiteRegion(whitebound)
-
     }
 
 
@@ -172,7 +168,6 @@ var vc = new function() {
     }
 
     this.drawPoint = function() {
-
           vc.svg
             .append("circle")
             .attr("class", "outer")
@@ -188,7 +183,6 @@ var vc = new function() {
         d3.selectAll("circle")
             .attr("cx", vc.db_scale(d.ta))
             .attr("cy", vc.vel_scale(d.vel))
-
     }
 
     this.redrawPoint = function() {
@@ -197,7 +191,6 @@ var vc = new function() {
             .transition()
             .attr("cx", vc.db_scale(d.ta))
             .attr("cy", vc.vel_scale(d.vel))
-
     }
 
 //      white region background
@@ -280,9 +273,6 @@ var vc = new function() {
         return wboundary
     }
 
-//    this.getHumRatio = function(db, vel) {
-//        return psy.humratio(psy.PROP.Patm, vel * psy.satpress(db) / 100)
-//    }
 
     this.findComfortBoundary = function(d, pmvlimit) {
         var boundary = []
