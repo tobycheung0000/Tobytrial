@@ -374,6 +374,8 @@ $(document).ready(function() {
     vc.drawChart();
     var bound = vc.findComfortBoundary(d, 0.5)
     vc.drawComfortRegion(bound);
+    var whitebound = vc.findWhiteBoundary()
+    vc.drawWhiteRegion(whitebound);
     vc.drawPoint();
     pc.drawChart();
     var json = [{ "db": d.ta,
@@ -913,7 +915,8 @@ $("#chartSelect").change(function(){
 //        	$('#globeTemp').removeAttr('disabled');
 //        	$('#tr-input, #tr-lab, #labelforlink').show();
 //		}
-
+            $('#link').is(':checked');
+            $('#labelforlink').show();
             $('#ta-lab').html('<a class="mainlink" href="http://en.wikipedia.org/wiki/Operative_temperature" target="_new">Operative temperature</a>');
             $('#globeTemp').attr('disabled', 'disabled');
             $('#tr-input, #tr-lab, #labelforlink').hide();
@@ -1007,7 +1010,7 @@ function addToEnsembles() {
 
 function update() {
 
-    if ($('#link').is(':checked') || $("#chartSelect").val() == "psychtop") {
+    if ($('#link').is(':checked') || $("#chartSelect").val() == "psychtop" || $("#chartSelect").val() == "veltop") {
         $('#tr').val($('#ta').val());
     }
     keys.forEach(function(element) {
@@ -1051,6 +1054,8 @@ function update() {
         } else if ($('#veltopchart-div').is(':visible')) {
             var b = vc.findComfortBoundary(d, 0.5)
             vc.redrawComfortRegion(b);
+            var whitebound = vc.findWhiteBoundary()
+            vc.redrawWhiteRegion(whitebound);
             vc.redrawPoint();
         };
 

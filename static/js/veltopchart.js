@@ -23,12 +23,12 @@ var vc = new function() {
         .range([this.margin, this.width - this.rbmargin])
         .domain(this.db_extent_F)
 
-    this.vel_extent = [0, 1.6]
+    this.vel_extent = [0, 1.25]
     this.vel_scale = d3.scale.linear()
         .range([this.height - this.margin, this.rbmargin])
         .domain(this.vel_extent)
 
-    this.vel_extent_fpm = [0, 315]
+    this.vel_extent_fpm = [0, 241]
     this.vel_scale_fpm = d3.scale.linear()
         .range([this.height - this.margin, this.rbmargin])
         .domain(this.vel_extent_fpm)
@@ -85,7 +85,8 @@ var vc = new function() {
             .attr("class", "db axis")
             .attr("id", "db-axis-C-veltop")
             .attr("transform", "translate(0," + (vc.height - vc.margin) + ")")
-            .call(db_axis.tickSubdivide(0).tickSize(-(vc.height - vc.margin - vc.rbmargin), 0).tickPadding(5))
+//            .call(db_axis.tickSubdivide(0).tickSize(-(vc.height - vc.margin - vc.rbmargin), 0).tickPadding(5))
+            .call(db_axis.tickSubdivide(0).tickPadding(5))
 
           vc.svg
             .append("g")
@@ -93,14 +94,15 @@ var vc = new function() {
             .attr("id", "db-axis-F-veltop")
             .attr("opacity", "0")
             .attr("transform", "translate(0," + (vc.height - vc.margin) + ")")
-            .call(db_axis_F.tickSubdivide(0).tickSize(-(vc.height - vc.margin - vc.rbmargin), 0).tickPadding(5))
+            .call(db_axis_F.tickSubdivide(0).tickPadding(5))
 
           vc.svg
             .append("g")
             .attr("class", "vel axis")
             .attr("id", "vel-text-vt")
             .attr("transform", "translate(" + (vc.margin) + ",0)")
-            .call(vel_axis.tickSubdivide(0).tickSize(-(vc.width - vc.margin - vc.rbmargin), 0).tickPadding(5))
+//            .call(vel_axis.tickSubdivide(0).tickSize(-(vc.width - vc.margin - vc.rbmargin), 0).tickPadding(5))
+            .call(vel_axis.tickSubdivide(0).tickPadding(5))
 
           vc.svg
             .append("g")
@@ -108,7 +110,7 @@ var vc = new function() {
             .attr("id", "vel-text-vt-fpm")
             .attr("opacity", "0")
             .attr("transform", "translate(" + (vc.margin) + ",0)")
-            .call(vel_axis_fpm.tickSubdivide(0).tickSize(-(vc.width - vc.margin - vc.rbmargin), 0).tickPadding(5))
+            .call(vel_axis_fpm.tickSubdivide(0).tickPadding(5))
 
 
         // giving labels to the axes
@@ -138,6 +140,10 @@ var vc = new function() {
             .append("text")
             .text("Air Speed [fpm]")
             .attr("transform", "rotate (-90, -45, -10) translate(-350)");
+
+        // drawing the white background
+//        var whitebound = vc.findwhiteBoundary();
+//            vc.drawwhiteRegion(whitebound)
 
     }
 
@@ -194,6 +200,86 @@ var vc = new function() {
 
     }
 
+//      white region background
+    this.drawWhiteRegion = function(data) {
+        d3.select(".svg-veltop").append("path")
+            .attr("clip-path", "url(#clip_vt)")
+            .attr("d", vc.pline(data) + "Z")
+            .attr("class", "whiteregion").attr("id", "veltop-white")
+    }
+
+    this.redrawWhiteRegion = function(data) {
+
+        d3.select(".whiteregion")
+            .transition()
+            .attr("d", vc.pline(data) + "Z")
+    }
+
+
+    this.findWhiteBoundary = function() {
+        var local_control =$('#local-control').is(':checked');
+        var wboundary = []
+
+        if (local_control) {
+        wboundary.push({
+            "db": 11,
+            "vel": 0.05
+        })
+        wboundary.push({
+            "db": 11,
+            "vel": 0.08
+        })
+        wboundary.push({
+            "db": 12,
+            "vel": 0.08
+        })
+        wboundary.push({
+            "db": 12,
+            "vel": 0.05
+        })
+
+        }
+
+        else {
+        wboundary.push({
+            "db": 10.05,
+            "vel": 0.2
+        })
+        wboundary.push({
+            "db": 10.05,
+            "vel": 1.25
+        })
+        wboundary.push({
+            "db": 34,
+            "vel": 1.25
+        })
+        wboundary.push({
+            "db": 34,
+            "vel": 0.8
+        })
+        wboundary.push({
+            "db": 25.5,
+            "vel": 0.8
+        })
+
+        t = 25.4
+        while (true) {
+        t -= 0.1
+        wboundary.push({
+            "db": t,
+            "vel" : 50.898 - 4.4103 * t + 0.09591 * t * t
+        })
+        if (t < 23.2) break
+        }
+        wboundary.push({
+            "db": 23.0,
+            "vel": 0.2
+        })
+        }
+
+        return wboundary
+    }
+
 //    this.getHumRatio = function(db, vel) {
 //        return psy.humratio(psy.PROP.Patm, vel * psy.satpress(db) / 100)
 //    }
@@ -206,7 +292,7 @@ var vc = new function() {
             var a = 0
             var b = 5
             var fn = function(db) {
-                return (comf.pmvElevatedAirspeed(db, d.tr, vel, d.rh, d.met, d.clo, d.wme).pmv - target)
+                return (comf.pmvElevatedAirspeed(db, db, vel, d.rh, d.met, d.clo, d.wme).pmv - target)
             }
             //t = util.bisect(a, b, fn, epsilon, target)
             t = util.secant(a, b, fn, epsilon)
@@ -216,21 +302,17 @@ var vc = new function() {
             }
         }
 
-        for (vel = 0.09; vel <= 1.99; vel += 0.1) {
+        boundary.push(solve(0.1, -pmvlimit))
+        for (vel = 0.2; vel <= 1.4; vel += 0.05) {
 //        for (vel = 0; vel <= 2; vel += 0.1) {
             boundary.push(solve(vel, -pmvlimit))
         }
 
-        for (vel = 1.99; vel >= 0.05; vel -= 0.1) {
+        for (vel = 1.401; vel >= 0.2; vel -= 0.05) {
 //        for (vel = 2; vel >= 0; vel -= 0.1) {
             boundary.push(solve(vel, pmvlimit))
         }
-
-//        for (db = 10; db <=36; db +=5) {
-//            boundary.push({
-//            "db": db,
-//            "vel": 0.1})
-//        }
+        boundary.push(solve(0.1, pmvlimit))
 
         return boundary
     }

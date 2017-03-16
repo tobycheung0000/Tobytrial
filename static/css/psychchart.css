@@ -73,6 +73,10 @@ path.psyregion {
 	fill-opacity: 0.0;
 }
 
+path.whiteregion {
+	fill: White;
+}
+
 .tick {
     fill:none;
     stroke: black;
