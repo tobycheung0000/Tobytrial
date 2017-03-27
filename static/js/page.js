@@ -473,7 +473,7 @@ $(function() {
         }
     });
 
-    $('#local-control').button();
+/*    $('#local-control').button();*/
     $('#radio').buttonset();
     $('.leed-buttons').buttonset();
 
@@ -602,6 +602,10 @@ $(function() {
     });
 
     $('select#model-type').selectmenu({
+        width: 200
+    });
+
+    $('select#local-control').selectmenu({
         width: 200
     });
 
@@ -839,20 +843,23 @@ $('#setDynamicClo').click(function() {
 
 $('#model-type').change(function() {
     $('#pmv-out-label').html('PMV');
-    $('#local-control-div').hide();
+//    $('#local-control-div').hide();
+//    $('#local-control').hide();
     $('#localDisc').removeAttr('disabled');
     model = $('#model-type').val();
     if (model == 'pmvElevatedAirspeed') {
         $('#pmv-inputs, #pmv-outputs, #cloInput, #actInput, #humidity-spec-cont, #chart-div, #chartSelect-cont, #pmv-notes').show();
         $('#adaptive-note, #adaptive-inputs, #adaptive-outputs, #chart-div-adaptive, #chart-title-adaptive, #temphumchart-div, #temphumchart-title, #veltopchart-div').hide();
         if (model == 'pmvElevatedAirspeed') {
-            $('#pmv-elev-outputs, #local-control-div').show();
+//            $('#pmv-elev-outputs, #local-control-div').show();
+            $('#pmv-elev-outputs, #local-control').show();
             $('#pmv-out-label').html('PMV Adjusted');
         } else {
             $('#pmv-elev-outputs').hide();
         }
     } else if (model == 'adaptiveComfort') {
-        $('#pmv-inputs, #pmv-elev-inputs, #local-control-div, #pmv-outputs, #pmv-elev-outputs, #cloInput').hide()
+//        $('#pmv-inputs, #pmv-elev-inputs, #local-control-div, #pmv-outputs, #pmv-elev-outputs, #cloInput').hide()
+        $('#pmv-inputs, #pmv-elev-inputs, #local-control, #pmv-outputs, #pmv-elev-outputs, #cloInput').hide()
         $('#actInput, #humidity-spec-cont, #chart-div, #temphumchart-div, #pmv-notes, #chartSelect-cont, #veltopchart-div').hide();
         $('#adaptive-note, #adaptive-inputs, #adaptive-outputs, #chart-div-adaptive, #chart-title-adaptive').show();
         $('#localDisc').attr('disabled', 'disabled');
@@ -922,6 +929,17 @@ $("#chartSelect").change(function(){
             $('#tr-input, #tr-lab, #labelforlink').hide();
 	}
 	update();
+});
+
+$("#local-control-div").change(function(){
+    var local_control = $('#local-control').val();
+    if (local_control == 'withairspeedcontrol'){
+    $("#vel").show();
+    }
+    else if (local_control == 'noairspeedcontrol'){
+    $("#vel").show();
+    }
+    update();
 });
 
 function toggleUnits() {
@@ -1116,10 +1134,11 @@ function calcPmvCompliance(d, r) {
     var pmv_comply = Math.abs(r.pmv) <= 0.5;
     var met_comply = d.met <= 2 && d.met >= 1;
     var clo_comply = d.clo <= 1.5;
-    var local_control = $('#local-control').is(':checked');
+//    var local_control = $('#local-control').is(':checked');
+    var local_control = $('#local-control').val();
     var special_msg = '';
     comply = true;
-
+    if (local_control == 'withairspeedcontrol'){
     if (!met_comply) {
         comply = false;
         special_msg += '&#8627; Metabolic rates below 1.0 or above 2.0 are not covered by this standard<br>';
@@ -1135,16 +1154,16 @@ function calcPmvCompliance(d, r) {
     if (!pmv_comply) {
         comply = false;
     }
-
+    }
     renderCompliance(comply, special_msg);
-
 }
 
 function calcPmvElevCompliance(d, r) {
     var pmv_comply = (Math.abs(r.pmv) <= 0.5);
     var met_comply = d.met <= 2 && d.met >= 1;
     var clo_comply = d.clo <= 1.5;
-    var local_control = $('#local-control').is(':checked');
+//    var local_control = $('#local-control').is(':checked');
+    var local_control = $('#local-control').val();
     var special_msg = '';
     var compliance_ranges, unit_t, unit_v;
     comply = true;
@@ -1157,8 +1176,22 @@ function calcPmvElevCompliance(d, r) {
         comply = false;
         special_msg += '&#8627; Clo values above 1.5 are not covered by this Standard<br>';
     }
+    if (!pmv_comply) {
+        comply = false;
+    }
 
-    if (!local_control) {
+    if (d.vel > 0.2) {
+        $("#pmv-out-label").html('PMV with elevated air speed')
+        $("#ppd-out-label").html('PPD with elevated air speed')
+        $("#pmv-elev-outputs").show();
+    } else {
+        $("#pmv-out-label").html('PMV')
+        $("#ppd-out-label").html('PPD')
+        $("#pmv-elev-outputs").hide();
+    }
+
+//    if (!local_control) {
+    if (local_control == 'noairspeedcontrol'){
         var max_airspeed;
         var to = (d.ta + d.tr) / 2;
         if (to > 25.5) {
@@ -1174,19 +1207,6 @@ function calcPmvElevCompliance(d, r) {
             comply = false;
             special_msg += '&#8627; Maximum air speed has been limited due to no occupant control<br>';
         }
-    }
-    if (!pmv_comply) {
-        comply = false;
-    }
-
-    if (d.vel > 0.2) {
-        $("#pmv-out-label").html('PMV with elevated air speed')
-        $("#ppd-out-label").html('PPD with elevated air speed')
-        $("#pmv-elev-outputs").show();
-    } else {
-        $("#pmv-out-label").html('PMV')
-        $("#ppd-out-label").html('PPD')
-        $("#pmv-elev-outputs").hide();
     }
     renderCompliance(comply, special_msg);
 }

@@ -8,7 +8,7 @@ var vc = new function() {
     this.rbmargin = 40
     this.width = 580
     this.height = 500
-    this.db_min = 10
+    this.db_min = 18
     this.db_max = 34
 
 
@@ -210,10 +210,12 @@ var vc = new function() {
 
 
     this.findWhiteBoundary = function() {
-        var local_control =$('#local-control').is(':checked');
+//        var local_control =$('#local-control').is(':checked');
+        var local_control = $('#local-control').val();
         var wboundary = []
 
-        if (local_control) {
+//        if (local_control) {
+        if (local_control == 'withairspeedcontrol'){
         wboundary.push({
             "db": 11,
             "vel": 0.05
@@ -235,11 +237,11 @@ var vc = new function() {
 
         else {
         wboundary.push({
-            "db": 10.05,
+            "db": 18.05,
             "vel": 0.2
         })
         wboundary.push({
-            "db": 10.05,
+            "db": 18.05,
             "vel": 1.25
         })
         wboundary.push({
