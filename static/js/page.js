@@ -848,18 +848,18 @@ $('#model-type').change(function() {
     $('#localDisc').removeAttr('disabled');
     model = $('#model-type').val();
     if (model == 'pmvElevatedAirspeed') {
-        $('#pmv-inputs, #pmv-outputs, #cloInput, #actInput, #humidity-spec-cont, #chart-div, #chartSelect-cont, #pmv-notes').show();
+        $('#pmv-inputs, #pmv-outputs, #cloInput, #actInput, #humidity-spec-cont, #chart-div, #chartSelect-cont, #pmv-notes, #veltopchart-div').show();
         $('#adaptive-note, #adaptive-inputs, #adaptive-outputs, #chart-div-adaptive, #chart-title-adaptive, #temphumchart-div, #temphumchart-title, #veltopchart-div').hide();
         if (model == 'pmvElevatedAirspeed') {
 //            $('#pmv-elev-outputs, #local-control-div').show();
-            $('#pmv-elev-outputs, #local-control').show();
+            $('#pmv-elev-outputs, #local-control-div').show();
             $('#pmv-out-label').html('PMV Adjusted');
         } else {
             $('#pmv-elev-outputs').hide();
         }
     } else if (model == 'adaptiveComfort') {
 //        $('#pmv-inputs, #pmv-elev-inputs, #local-control-div, #pmv-outputs, #pmv-elev-outputs, #cloInput').hide()
-        $('#pmv-inputs, #pmv-elev-inputs, #local-control, #pmv-outputs, #pmv-elev-outputs, #cloInput').hide()
+        $('#pmv-inputs, #pmv-elev-inputs, #local-control, #local-control-div, #pmv-outputs, #pmv-elev-outputs, #cloInput').hide()
         $('#actInput, #humidity-spec-cont, #chart-div, #temphumchart-div, #pmv-notes, #chartSelect-cont, #veltopchart-div').hide();
         $('#adaptive-note, #adaptive-inputs, #adaptive-outputs, #chart-div-adaptive, #chart-title-adaptive').show();
         $('#localDisc').attr('disabled', 'disabled');
@@ -933,11 +933,8 @@ $("#chartSelect").change(function(){
 
 $("#local-control-div").change(function(){
     var local_control = $('#local-control').val();
-    if (local_control == 'withairspeedcontrol'){
-    $("#vel").show();
-    }
-    else if (local_control == 'noairspeedcontrol'){
-    $("#vel").show();
+    if (local_control == 'withairspeedcontrol' || local_control == 'noairspeedcontrol' ){
+//    $("#local-control-div").show();
     }
     update();
 });
