@@ -263,7 +263,7 @@ var vc = new function() {
         wboundary.push({
             "db": t,
 //            "vel" : 50.898 - 4.4103 * t + 0.09591 * t * t
-            "vel" : 50.49 - 4.4047 * t + 0.096425 * t * t
+            "vel" : 50.49 - 4.4047 * t + 0.096426 * t * t
         })
         if (t < 23.25) break
         }
