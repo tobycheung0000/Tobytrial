@@ -257,14 +257,15 @@ var vc = new function() {
             "vel": 0.8
         })
 
-        t = 25.4
+        t = 25.45
         while (true) {
         t -= 0.1
         wboundary.push({
             "db": t,
-            "vel" : 50.898 - 4.4103 * t + 0.09591 * t * t
+//            "vel" : 50.898 - 4.4103 * t + 0.09591 * t * t
+            "vel" : 50.49 - 4.4047 * t + 0.096425 * t * t
         })
-        if (t < 23.2) break
+        if (t < 23.25) break
         }
         wboundary.push({
             "db": 23.0,
